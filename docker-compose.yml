@@ -1,0 +1,30 @@
+services:
+  mysql:
+    image: mysql:8.0.38
+    container_name: Team_3_project
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: CruiseShip
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql # 持久化資料
+      - ./mysql_conf:/etc/mysql/conf.d # 自定義配置
+    networks:
+      - my_network
+
+  flyway:
+    image: flyway/flyway:latest
+    command: -url=jdbc:mysql://mysql:3306/CruiseShip?allowPublicKeyRetrieval=true -user=root -password=123456 migrate
+    volumes:
+      - ./sql_migrations:/flyway/sql # 放置 SQL 遷移文件的資料夾
+      - /path/to/server-key.pem:/flyway/server-key.pem
+      - /path/to/server-cert.pem:/flyway/server-cert.pem
+    depends_on:
+      - mysql
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
