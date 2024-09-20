@@ -7,7 +7,7 @@ CREATE TABLE Products (
     prod_id INT PRIMARY KEY auto_increment,
     prod_name VARCHAR(50) NOT null,
     prod_category VARCHAR(50),
-    prod_qty INT NOT null,
+    prod_stock INT NOT null,
     prod_price INT NOT null,
     prod_img_1 varchar(50),
  	prod_img_2 varchar(50),
@@ -44,10 +44,12 @@ DELIMITER //
 
 CREATE PROCEDURE GetAllProductsWithImages()
 BEGIN
-    SELECT * FROM Products;
+    SELECT *FROM Products;
 END //
 
 DELIMITER ;
+
+ 
 
 -- 獲取指定商品跟圖片
 DELIMITER //
@@ -60,7 +62,6 @@ END //
 
 DELIMITER ;
 
-CALL GetProductWithImagesById(1);
 
 -- 新增商品跟圖片
 DELIMITER //
