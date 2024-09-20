@@ -9,7 +9,7 @@ CREATE TABLE route (
     route_days INT
 );
 
-CREATE TABLE Ships_Schedule (
+CREATE TABLE ships_schedule (
     ship_id INT PRIMARY KEY auto_increment,
     route_id INT,
     ship_status VARCHAR(20) NOT null,
@@ -32,7 +32,7 @@ CREATE TABLE travel_order (
 	Constraint fk_travel_order_member_data_memb_id
 	foreign key (memb_id) references member_data(memb_id),
 	Constraint fk_travel_order_Ships_Schedule_ship_id
-	foreign key (ship_id) references Ships_Schedule(ship_id),
+	foreign key (ship_id) references ships_schedule(ship_id),
 	Constraint fk_travel_order_coupon_type_coup_id
-	foreign key (coup_id) references coupon_types(coup_id)
+	foreign key (coup_id) references coupon_type(coup_id)
 );

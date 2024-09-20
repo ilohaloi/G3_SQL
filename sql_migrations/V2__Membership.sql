@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS  coupon_types;
 DROP TABLE IF EXISTS  member_data;
 DROP TABLE IF EXISTS  user_coupon;
 
-CREATE TABLE coupon_types (
+CREATE TABLE coupon_type (
     coup_id INT PRIMARY KEY auto_increment,
     coup_name VARCHAR(50) NOT null,
     coup_dis INT NOT null
@@ -26,5 +26,5 @@ CREATE TABLE user_coupon (
     CONSTRAINT fk_user_coupon_member_data_memb_id
     FOREIGN KEY (memb_id) REFERENCES member_data(memb_id),
     CONSTRAINT fk_user_coupon_coupon_types_coup_id
-    FOREIGN KEY (coup_id) REFERENCES coupon_types(coup_id)
+    FOREIGN KEY (coup_id) REFERENCES coupon_type(coup_id)
 );
