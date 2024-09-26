@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS  route;
-DROP TABLE IF EXISTS  Ships_Schedule;
 DROP TABLE IF EXISTS  travel_order;
+DROP TABLE IF EXISTS  Ships_Schedule;
+DROP TABLE IF EXISTS  route;
 
 CREATE TABLE route (
     route_id INT PRIMARY KEY auto_increment,

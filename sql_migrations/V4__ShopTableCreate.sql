@@ -1,21 +1,23 @@
 --    創建表單 -------------------------------------------------------
-DROP TABLE IF EXISTS  Products;
-DROP TABLE IF EXISTS  OrderDetail;
-DROP TABLE IF EXISTS  OrderList;
+DROP TABLE IF EXISTS  products;
+DROP TABLE IF EXISTS  order_detail;
+DROP TABLE IF EXISTS  order_list;
 
-CREATE TABLE Products (
+CREATE TABLE products (
     prod_id INT PRIMARY KEY auto_increment,
     prod_name VARCHAR(50) NOT null,
     prod_category VARCHAR(50),
     prod_stock INT NOT null,
     prod_price INT NOT null,
-    prod_img_1 varchar(50),
- 	prod_img_2 varchar(50),
- 	prod_img_3 varchar(50)
+    prod_img_1 varchar(100),
+ 	prod_img_2 varchar(100),
+ 	prod_img_3 varchar(100)
 );
 
-CREATE TABLE OrderList(
+
+CREATE TABLE order_list(
 	order_id int PRIMARY KEY auto_increment,
+    memb_id int,
 	order_time DATETIME DEFAULT CURRENT_TIMESTAMP,
 	order_status varchar(50) NOT null,
 	order_payment varchar(50) NOT null,
@@ -23,18 +25,20 @@ CREATE TABLE OrderList(
 	cust_email varchar(100),
 	cust_tell int NOT null,
 	del_addr  varchar(50) NOT null,
-	order_amount int NOT null
+	order_amount int NOT null,
+    CONSTRAINT fk_order_list_member_data_memb_id
+    FOREIGN KEY (memb_id) REFERENCES member_data(memb_id)
 );
 
-CREATE TABLE OrderDetail(
+CREATE TABLE order_detail(
 	order_id int,
 	prod_id  int NOT null,
-	prod_name varchar(50) NOT null,
-	prod_category VARCHAR(50) NOT null,
 	prod_qty int NOT null,
 	prod_price int NOT null,
-	CONSTRAINT fk_OrderDetail_OrderList_order_id
-    FOREIGN KEY (order_id) REFERENCES OrderList(order_id)
+	CONSTRAINT fk_order_detail_order_list_order_id
+    FOREIGN KEY (order_id) REFERENCES order_list(order_id),
+    CONSTRAINT fk_order_detail_products_prod_id
+    FOREIGN KEY (prod_id) REFERENCES products(prod_id)
 );
 
 --    預存指令 -------------------------------------------------------
@@ -44,7 +48,7 @@ DELIMITER //
 
 CREATE PROCEDURE GetAllProductsWithImages()
 BEGIN
-    SELECT *FROM Products;
+    SELECT *FROM products;
 END //
 
 DELIMITER ;
@@ -56,7 +60,7 @@ DELIMITER //
 
 CREATE PROCEDURE GetProductWithImagesById(IN input_prod_id INT)
 BEGIN
-    SELECT * FROM Products
+    SELECT * FROM products
     WHERE prod_id = input_prod_id;
 END //
 
@@ -79,7 +83,7 @@ BEGIN
     DECLARE new_prod_id INT;
 
     -- 插入数据到 Products 表
-    INSERT INTO Products (prod_name, prod_category, prod_qty, prod_price,prod_id, prod_img_1, prod_img_2, prod_img_3)
+    INSERT INTO products (prod_name, prod_category, prod_qty, prod_price,prod_id, prod_img_1, prod_img_2, prod_img_3)
     VALUES (p_prod_name, p_prod_category, p_prod_qty, p_prod_price,p_prod_img_1, p_prod_img_2, p_prod_img_3);
 END //
 
@@ -94,7 +98,7 @@ CREATE  PROCEDURE UpdateProductQty(
 )
 BEGIN
 
-	UPDATE Products 
+	UPDATE products 
 	SET prod_qty = p_prod_qty
 	WHERE prod_id  = p_prod_id;
 END //
@@ -109,7 +113,7 @@ CREATE  PROCEDURE UpdateProductPrice(
 )
 BEGIN
 
-	UPDATE Products
+	UPDATE products
 	SET prod_price = p_prod_price 
 	WHERE prod_id  = p_prod_id;
 END //
@@ -124,7 +128,7 @@ CREATE  PROCEDURE UpdateProductCategory(
 )
 BEGIN
 
-	UPDATE Products
+	UPDATE products
 	SET prod_category = p_prod_category
 	WHERE prod_id  = p_prod_id;
 END //
@@ -142,21 +146,21 @@ CREATE PROCEDURE UpdateProductImg(
 BEGIN
     -- 检查是否提供了新的图片1，如果有，则更新图片1
     IF p_img1 IS NOT NULL THEN
-        UPDATE Products
+        UPDATE products
         SET prod_img_1 = p_img1
         WHERE prod_id = p_prod_id;
     END IF;
     
     -- 检查是否提供了新的图片2，如果有，则更新图片2
     IF p_img2 IS NOT NULL THEN
-        UPDATE Products
+        UPDATE products
         SET prod_img_2 = p_img2
         WHERE prod_id = p_prod_id;
     END IF;
     
     -- 检查是否提供了新的图片3，如果有，则更新图片3
     IF p_img3 IS NOT NULL THEN
-        UPDATE Products
+        UPDATE products
         SET prod_img_3 = p_img3
         WHERE prod_id = p_prod_id;
     END IF;
@@ -171,7 +175,7 @@ CREATE PROCEDURE UpdateProductName(
     IN p_prod_name VARCHAR(255)
 )
 BEGIN
-   UPDATE Products
+   UPDATE products
    SET 	  prod_name = p_prod_name
    WHERE  prod_id = p_prod_id;
 END //
@@ -183,7 +187,7 @@ DELIMITER //
 
 CREATE PROCEDURE GetOrderList()
 BEGIN
-    SELECT * FROM OrderList;
+    SELECT * FROM order_list;
 END //
 
 DELIMITER ;
@@ -197,7 +201,7 @@ CREATE PROCEDURE GetOrderDetail(
 )
 
 BEGIN
-    SELECT * FROM OrderDetail od
+    SELECT * FROM order_detail od
    	WHERE od.order_id = o_order_id;
 END //
 
@@ -217,7 +221,7 @@ CREATE PROCEDURE InsertOrder(
 )
 
 BEGIN
-   INSERT INTO OrderList(order_status,order_payment,cust_name,cust_email,cust_tell,del_addr,order_amount) VALUES
+   INSERT INTO order_list(order_status,order_payment,cust_name,cust_email,cust_tell,del_addr,order_amount) VALUES
    (o_order_status,o_order_payment,o_order_cust_name,o_order_cust_email,o_order_cust_tell,o_order_del_addr,o_order_amount);
   	SET get_order_id = LAST_INSERT_ID(); 
 END //
@@ -236,7 +240,7 @@ CREATE PROCEDURE InsertOrderDetail(
 	IN o_order_prod_price int
 )
 BEGIN
-   INSERT INTO OrderDetail(order_id,prod_id,prod_name,prod_category,prod_qty,prod_price) VALUES
+   INSERT INTO order_detail(order_id,prod_id,prod_name,prod_category,prod_qty,prod_price) VALUES
    (o_order_id,o_order_prod_id,o_order_prod_name,o_order_prod_category,o_order_prod_qty,o_order_prod_price);
 END //
 
@@ -252,7 +256,7 @@ CREATE PROCEDURE UpdateOrderStatus(
 )
 
 BEGIN
-   UPDATE OrderList 
+   UPDATE order_list 
    SET order_status = o_oredr_satus
    WHERE order_id = o_order_id;
 END //
@@ -267,7 +271,7 @@ CREATE PROCEDURE UpdateOrderCustomerName(
 )
 
 BEGIN
-   UPDATE OrderList 
+   UPDATE order_list 
    SET cust_name = o_order_cust_name
    WHERE order_id = o_order_id;
 END //
@@ -282,7 +286,7 @@ CREATE PROCEDURE UpdateOrderCustomerTell(
 )
 
 BEGIN
-   UPDATE OrderList 
+   UPDATE order_list 
    SET cust_tell = o_order_cust_tell
    WHERE order_id = o_order_id;
 END //
@@ -297,7 +301,7 @@ CREATE PROCEDURE UpdateOrderShippingAddress(
 )
 
 BEGIN
-   UPDATE OrderList 
+   UPDATE order_list 
    SET ship_addr = o_order_ship_addr
    WHERE order_id = o_order_id;
 END //

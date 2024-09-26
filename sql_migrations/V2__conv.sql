@@ -1,12 +1,12 @@
-DROP TABLE IF EXISTS  Products;
-DROP TABLE IF EXISTS  OrderDetail;
-DROP TABLE IF EXISTS  OrderList;
+DROP TABLE IF EXISTS  conversation_content;
+DROP TABLE IF EXISTS  employee_data;
 
 create table employee_data(
 empo_id int  primary key auto_increment ,
 empo_name varchar(10) ,
 empo_account varchar(24) not null,
-empo_password varchar(24) not null
+empo_password text not null,
+empo_public_key text not null
 );
 
 create table conversation_content(

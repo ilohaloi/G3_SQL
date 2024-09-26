@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS  coupon_types;
-DROP TABLE IF EXISTS  member_data;
 DROP TABLE IF EXISTS  user_coupon;
+DROP TABLE IF EXISTS  member_data;
+DROP TABLE IF EXISTS  coupon_types;
 
 CREATE TABLE coupon_type (
     coup_id INT PRIMARY KEY auto_increment,
