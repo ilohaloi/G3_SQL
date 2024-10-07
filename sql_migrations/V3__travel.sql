@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS  route;
 CREATE TABLE route (
     route_id INT PRIMARY KEY auto_increment,
     route_name VARCHAR(60),
+    route_price int,
     route_depiction longtext,
     route_days INT
 );
