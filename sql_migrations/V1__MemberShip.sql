@@ -5,7 +5,8 @@ DROP TABLE IF EXISTS  coupon_types;
 CREATE TABLE coupon_type (
     coup_id INT PRIMARY KEY auto_increment,
     coup_name VARCHAR(50) NOT null,
-    coup_dis INT NOT null
+    coup_discount Double NOT null,
+    coup_description varchar(255)
 );
 
 CREATE TABLE member_data (
