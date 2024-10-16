@@ -23,7 +23,7 @@ CREATE TABLE order_list(
 	order_payment varchar(50) NOT null,
 	cust_name varchar(50) NOT null,
 	cust_email varchar(100),
-	cust_tell int NOT null,
+	cust_tell varchar(10) NOT null,
 	del_addr  varchar(50) NOT null,
 	order_amount int NOT null,
     CONSTRAINT fk_order_list_member_data_memb_id
