@@ -6,7 +6,9 @@ CREATE TABLE coupon_type (
     coup_id INT PRIMARY KEY auto_increment,
     coup_name VARCHAR(50) NOT null,
     coup_discount Double NOT null,
-    coup_description varchar(255)
+    coup_description varchar(255),
+    coup_issue_date Timestamp,
+    coup_expiry_data Timestamp
 );
 
 CREATE TABLE member_data (
