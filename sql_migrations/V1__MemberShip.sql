@@ -8,7 +8,7 @@ CREATE TABLE coupon_type (
     coup_discount Double NOT null,
     coup_description varchar(255),
     coup_issue_date Timestamp,
-    coup_expiry_data Timestamp
+    coup_expiry_date Timestamp
 );
 
 CREATE TABLE member_data (
