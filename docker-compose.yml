@@ -35,6 +35,16 @@ services:
       - "6380:6379" # 可选，如果需要暴露到主机
     networks:
       - my_network
+  shardingsphere-proxy:
+    image: apache/shardingsphere-proxy:latest
+    environment:
+      PORT: 3307
+    depends_on:
+      - mysql
+    ports:
+      - "3309:3307"
+    volumes:
+      - ./config-sharding/conf/global.yaml:/opt/shardingsphere-proxy/conf/config-sharding.yaml
 
 networks:
   my_network:

@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS  route;
 
 CREATE TABLE route (
     route_id INT PRIMARY KEY auto_increment,
+    route_image VARCHAR(255),
     route_name VARCHAR(60),
     route_price int,
     route_depiction longtext,
@@ -27,6 +28,7 @@ CREATE TABLE travel_order (
 	ship_id INT,
 	coup_id INT,
 	trav_orde_status VARCHAR(20) NOT null,
+    room_type VARCHAR(100)Not null,
 	room_amount INT NOT null,
 	trav_orde_amount VARCHAR(20) NOT null,
 
