@@ -7,6 +7,7 @@ CREATE TABLE products (
     prod_id INT PRIMARY KEY auto_increment,
     prod_name VARCHAR(50) NOT null,
     prod_category VARCHAR(50),
+    pord_describe VARCHAR(255),
     prod_stock INT NOT null,
     prod_price INT NOT null,
     prod_img_1 varchar(100),

@@ -24,9 +24,9 @@ CREATE TABLE ships_schedule (
 
 CREATE TABLE travel_order (
     trav_orde_id INT PRIMARY KEY auto_increment,
-	memb_id INT,
+	memb_id INT NOT null,
 	ship_id INT,
-	coup_id INT,
+	coup_no INT,
 	trav_orde_status VARCHAR(20) NOT null,
     room_type VARCHAR(100)Not null,
 	room_amount INT NOT null,
@@ -36,6 +36,6 @@ CREATE TABLE travel_order (
 	foreign key (memb_id) references member_data(memb_id),
 	Constraint fk_travel_order_Ships_Schedule_ship_id
 	foreign key (ship_id) references ships_schedule(ship_id),
-	Constraint fk_travel_order_coupon_type_coup_id
-	foreign key (coup_id) references coupon_type(coup_id)
+	Constraint fk_travel_order_coupon_type_coup_no
+	foreign key (coup_no) references user_coupon(coup_no)
 );

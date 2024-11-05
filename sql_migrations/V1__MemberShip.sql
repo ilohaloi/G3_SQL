@@ -22,10 +22,10 @@ CREATE TABLE member_data (
 CREATE TABLE user_coupon (
     coup_no INT PRIMARY KEY auto_increment,
     memb_id INT,  
-    coup_id INT, 
+    coup_id INT,
     coup_issue_date TIMESTAMP, 
     coup_expiry_date TIMESTAMP, 
-    coup_is_used TINYINT(1) DEFAULT 0,  
+    coup_is_used INT DEFAULT 0,
     CONSTRAINT fk_user_coupon_member_data_memb_id
         FOREIGN KEY (memb_id) REFERENCES member_data(memb_id), 
     CONSTRAINT fk_user_coupon_coupon_types_coup_id
